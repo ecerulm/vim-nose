@@ -15,10 +15,13 @@ endif
 let s:save_cpo = &cpoptions " Save current cpoption to restore later
 set cpo&vim  " reset cpoptions to force vim mode
 
-let s:tempfile = tempname()
-echom s:tempfile
-CompilerSet makeprg=nosetests\ --with-xunit\ --xunit-file=s:tmpfile;./filter.py\ s:tmpfile
-" CompilerSet makeprg=nosetests
+let s:tmpfile = tempname()
+
+let s:path = fnamemodify(resolve(expand('<sfile>:p')), ':h')
+
+" let s:makeprg = 'nosetests\\ --with-xunit\\ --xunit-file='.s:tmpfile.';./filter.py\\ '.s:tmpfile
+let s:makeprg = 'nosetests\ --with-xunit\ --xunit-file='.s:tmpfile.';'.s:path.'/filter.py\ '.s:tmpfile
+execute "CompilerSet makeprg=".s:makeprg
 CompilerSet efm=%f:%l:%m
 
 " FF
