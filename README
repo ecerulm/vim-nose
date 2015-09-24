@@ -1,0 +1,3 @@
+vim compiler plugin that creates a quickfix entry per traceback entry
+(usually pyunit kind of plugins try to be smart and create a single
+entry for the whole traceback)
