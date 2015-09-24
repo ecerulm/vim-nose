@@ -19,7 +19,7 @@ def print_testcase_line(testcase):
     except StopIteration:
         return # nothing to print, the testcase passed
     result = child.tag
-    message = child.attrib['message']
+    message = child.attrib.get('message', '(no message)')
     # print vars(child)
     for (filename,line,function) in parse_traceback(child.text):
         print("%s:%s:%s:%s:%s:%s" % (filename,line,function,testname,result,message,))

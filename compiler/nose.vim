@@ -7,6 +7,7 @@ if exists("current_compiler")
     finish
 endif
 let current_compiler = "nose"
+echom "loaded compiler nose"
 
 if exists(":CompilerSet") != 2		" older Vim always used :setlocal
   command -nargs=* CompilerSet setlocal <args>
@@ -20,7 +21,11 @@ let s:tmpfile = tempname()
 let s:path = fnamemodify(resolve(expand('<sfile>:p')), ':h')
 
 " let s:makeprg = 'nosetests\\ --with-xunit\\ --xunit-file='.s:tmpfile.';./filter.py\\ '.s:tmpfile
-let s:makeprg = 'nosetests\ --with-xunit\ --xunit-file='.s:tmpfile.';'.s:path.'/filter.py\ '.s:tmpfile
+
+let g:nose#args = get(g:, 'nose#args', '')
+echom 'nose#args='.g:nose#args
+let s:makeprg = 'nosetests\ '.g:nose#args.'\ --with-xunit\ --xunit-file='.s:tmpfile.';'.s:path.'/filter.py\ '.s:tmpfile
+echom 's:makeprg='.s:makeprg
 execute "CompilerSet makeprg=".s:makeprg
 CompilerSet efm=%f:%l:%m
 
