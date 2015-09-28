@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
+from __future__ import print_function
 import re
 import sys
 
@@ -19,10 +20,18 @@ def print_testcase_line(testcase):
     except StopIteration:
         return # nothing to print, the testcase passed
     result = child.tag
+    if result not in ['failure', 'error']:
+        return
+
     message = child.attrib.get('message', '(no message)')
+    type = child.attrib.get('type', '(no type)')
     # print vars(child)
+    print("Testcase {testname} resulted in {result}:".format(**locals()))
     for (filename,line,function) in parse_traceback(child.text):
-        print("%s:%s:%s:%s:%s:%s" % (filename,line,function,testname,result,message,))
+        # print("%s:%s:%s:%s:%s:%s" % (filename,line,function,testname,result,message,))
+        # print(locals())
+        print("{filename}:{line}:{function}:".format(**locals())) 
+    print("{type} {message}".format(**locals()))
 
 import xml.etree.ElementTree as ET
 tree = ET.parse(sys.argv[1])

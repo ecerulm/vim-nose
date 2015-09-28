@@ -27,7 +27,7 @@ echom 'nose#args='.g:nose#args
 let s:makeprg = 'nosetests\ '.g:nose#args.'\ --with-xunit\ --xunit-file='.s:tmpfile.';'.s:path.'/filter.py\ '.s:tmpfile
 echom 's:makeprg='.s:makeprg
 execute "CompilerSet makeprg=".s:makeprg
-CompilerSet efm=%f:%l:%m
+CompilerSet errorformat=%f:%l:%m:
 
 " FF
 " ======================================================================
