@@ -11,7 +11,8 @@ def parse_traceback(cdata):
         # print line
         matches =  re.match("\s+File\s\"+(\S+)\",\s+line\s+(\d+),\s+in\s+(\S+)",line)
         # print matches.groups()
-        yield matches.groups()
+        if matches:
+            yield matches.groups()
 
 def print_testcase_line(testcase):
     testname = testcase.attrib['name']
