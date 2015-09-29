@@ -8,9 +8,7 @@ import sys
 def parse_traceback(cdata):
     lines = [line for line in cdata.split('\n') if "File" in line]
     for line in lines:
-        # print line
         matches =  re.match("\s+File\s\"+(\S+)\",\s+line\s+(\d+),\s+in\s+(\S+)",line)
-        # print matches.groups()
         if matches:
             yield matches.groups()
 
@@ -26,11 +24,8 @@ def print_testcase_line(testcase):
 
     message = child.attrib.get('message', '(no message)')
     type = child.attrib.get('type', '(no type)')
-    # print vars(child)
     print("Testcase {testname} resulted in {result}:".format(**locals()))
     for (filename,line,function) in parse_traceback(child.text):
-        # print("%s:%s:%s:%s:%s:%s" % (filename,line,function,testname,result,message,))
-        # print(locals())
         print("{filename}:{line}:{function}:".format(**locals())) 
     print("{type} {message}".format(**locals()))
 
