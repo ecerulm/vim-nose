@@ -9,8 +9,10 @@ def parse_traceback(cdata):
     lines = [line for line in cdata.split('\n') if "File" in line]
     for line in lines:
         matches =  re.match("\s+File\s\"+(\S+)\",\s+line\s+(\d+),\s+in\s+(\S+)",line)
+        # print matches.groups()
         if matches:
-            yield matches.groups()
+            if not re.search("unittest.case.py",line):
+                yield matches.groups()
 
 def print_testcase_line(testcase):
     testname = testcase.attrib['name']
@@ -26,7 +28,7 @@ def print_testcase_line(testcase):
     type = child.attrib.get('type', '(no type)')
     print("Testcase {testname} resulted in {result}:".format(**locals()))
     for (filename,line,function) in parse_traceback(child.text):
-        print("{filename}:{line}:{function}:".format(**locals())) 
+        print("{filename}:{line}:{function}:".format(**locals()))
     print("{type} {message}".format(**locals()))
 
 import xml.etree.ElementTree as ET
