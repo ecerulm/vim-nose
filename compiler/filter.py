@@ -4,14 +4,18 @@
 from __future__ import print_function
 import re
 import sys
+import re
+
+blacklist = [ "mock/mock.py" , "venv/lib", "/usr/lib/python" , "<string>"]
 
 def parse_traceback(cdata):
     lines = [line for line in cdata.split('\n') if "File" in line]
     for line in lines:
         matches =  re.match("\s+File\s\"+(\S+)\",\s+line\s+(\d+),\s+in\s+(\S+)",line)
-        # print matches.groups()
         if matches:
-            if not re.search("unittest.case.py",line):
+            if any(re.search(pattern,line) for pattern in blacklist) :
+                pass  # backlisted
+            else:
                 yield matches.groups()
 
 def print_testcase_line(testcase):
